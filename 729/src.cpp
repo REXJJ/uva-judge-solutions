@@ -32,6 +32,7 @@ void hamm(int n,int h,vector<int>& num)
 	}
 }
 
+
 int main()
 {
 	int t;
