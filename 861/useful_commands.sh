@@ -1,0 +1,1 @@
+cat sample.txt | perl -e 'while(<>) { @nums=split;print $nums[0]*64+$nums[1];print "\n"; }'>cache.txt
