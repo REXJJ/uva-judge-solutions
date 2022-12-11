@@ -2,64 +2,47 @@
 
 using namespace std;
 
-long long int get_mx(vector<long long int> &p)
-{
-	vector<long long int> pp={1};
-	for(long long int i=1;i<=p.size();i++)
-	{
-		pp.push_back(pp[i-1]*p[i-1]);
-	}
-	long long int mx=INT_MIN;
-	for(long long int i=1;i<pp.size();i++)
-	{
-		for(long long int j=0;j<i;j++)
-		{
-			if(!pp[j])
-				continue;
-			auto loc = pp[i]/pp[j];
-			if(loc>mx)
-				mx=loc;
-		}
-	}
-	return mx;
-}
+using ll = long long int;
 
-void compute(vector<vector<long long int>> &p)
+void compute(vector<long long int> &p)
 {
-	long long int mx=INT_MIN;
-	for(auto x:p)
-	{
-		auto temp=get_mx(x);
-		if(temp>mx)
-			mx=temp;
-	}
-	cout<<mx<<endl;
+    if(p.size()==0)
+    {
+        std::cout<<0<<std::endl;
+        return;
+    }
+    long long int mx = p[0];
+    vector<ll> dp = {p[0]};
+    for(ll i=1;i<p.size();i++)
+    {
+        dp.push_back(dp[i-1]*p[i]);
+    }
+    for(ll i=0;i<p.size();i++)
+    {
+        for(ll j=0;j<i;j++)
+        {
+            if(dp[j]==0)
+                continue;
+            auto x = dp[i]/dp[j];
+            mx = max(mx,x);
+        }
+    }
+    std::cout<<mx<<std::endl;
 }
 
 int main()
 {
 	long long int n;
-	vector<vector<long long int>> p;
-	vector<long long int> pp;
+	vector<long long int> p;
 	while(cin>>n)
 	{
 		if(n==-999999)
 		{
-			if(pp.size())
-				p.push_back(pp);
 			compute(p);
 			p={};
-			pp={};
 			continue;
 		}
-		if(n==0)
-		{
-			pp.push_back(n);
-			p.push_back(pp);
-			pp={};
-			continue;
-		}
-		pp.push_back(n);
+        p.push_back(n);
 	}
 	return 0;
 }
